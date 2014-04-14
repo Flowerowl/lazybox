@@ -8,6 +8,7 @@ def pyunescape(jsescapse):
     """
     python解析经javascrpt的escapse()加密的字符串
     """
+
     try:
         unescaped = json.loads('"'+urllib2.unquote(jsescapse.replace('%u','\\u'))+'"')
         return unescaped

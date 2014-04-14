@@ -12,6 +12,7 @@ class ContentEncodingProcessor(urllib2.BaseHandler):
     ref:http://www.pythonclub.org/python-network-application/observer-spider
     '''
     """A handler to add gzip capabilities to urllib2 requests """
+
     # add headers to requests
     def http_request(self, req):
         req.add_header("Accept-Encoding", "gzip, deflate")
@@ -23,9 +24,9 @@ class ContentEncodingProcessor(urllib2.BaseHandler):
         # gzip
         if resp.headers.get("content-encoding") == "gzip":
             gz = GzipFile(
-                        fileobj=StringIO(resp.read()),
-                        mode="r"
-                    )
+                fileobj=StringIO(resp.read()),
+                mode="r"
+            )
             resp = urllib2.addinfourl(gz, old_resp.headers, old_resp.url, old_resp.code)
             resp.msg = old_resp.msg
         # deflate
@@ -48,6 +49,7 @@ def get_request(url):
     '''
     包装urllib2的请求
     '''
+
     encoding_support = ContentEncodingProcessor
     opener = urllib2.build_opener(encoding_support, urllib2.HTTPHandler)
     req = urllib2.Request(url)
@@ -58,6 +60,7 @@ def get_source(url):
     '''
     获取当前网页源码
     '''
+
     req, opener = get_request(url)
     try:
         urlopen = opener.open(req, timeout = 10)
